@@ -1,0 +1,71 @@
+create database payrollService;
+show databases;
+use payrollService;
+
+create table employeePayroll (id int primary key auto_increment, name varchar(20), salary varchar(20),
+startDate varchar(20));
+desc employeePayroll;
+
+insert into employeePayroll (name,salary,startDate) values ('ismail','30000','1-1-2022'), ('salman','40000','10-2-2022'), 
+('sara', '50000', '25-2-2022'), ('zara', '40000', '10-2-2022'); 
+select *from employeePayroll;
+select salary from employeePayroll where name = 'ismail';
+select salary from employeePayroll where name = 'zara';
+select*from employeePayroll where startDate between cast('10-2-2022' as date) and date(now());
+
+alter table employeePayroll add gender varchar(1);
+update employeePayroll set gender = 'M' where id = '1'  or id = '2';
+update employeePayroll set gender = 'F' where id = '4' or id = '3';
+select *from employeePayroll;
+
+
+update employeePayroll set name = 'pooja' where id = '4'; 
+select min(salary) from employeePayroll;
+select max(salary) from employeePayroll;
+select avg(salary) from employeePayroll;
+select count(*) from employeePayroll;
+select sum(salary) from employeePayroll where gender = 'F' group by gender;
+select sum(salary) from employeePayroll where gender = 'M' group by gender;
+
+alter table employeepayroll add phoneNum varchar(20), add address varchar(20), add dept varchar(20);
+desc employeePayroll; 
+
+update employeepayroll set phoneNum = '9561864842' where id = '1';
+update employeepayroll set phoneNum = '7972121283' where id = '2';
+update employeepayroll set phoneNum = '9561484100' where id = '3';
+update employeepayroll set phoneNum = '9563738338' where id = '4';
+update employeepayroll set address = 'pune' where id ='1';
+update employeepayroll set address = 'Warud' where id = '2';
+update employeepayroll set address = 'Nagpur' where id = '3';
+update employeepayroll set address = 'jaipur' where id = '4';
+update employeepayroll set dept = 'Sales' where id ='1';
+update employeepayroll set dept = 'Tech' where id = '2';
+update employeepayroll set dept = 'Store' where id = '3';
+update employeepayroll set dept = 'Sales' where id = '4';
+select * from employeepayroll;
+alter table employeepayroll drop phoneNum;
+select * from employeepayroll;
+
+alter table employeepayroll add column basicPay varchar(20), add column deductions varchar(20),
+add column taxablePay varchar(20),add column incomeTax varchar(20), add column netPay varchar(20);
+desc employeepayroll;
+update employeepayroll set deductions = '6000' where id = '1';
+update employeepayroll set basicPay = '2000' where id = '1';
+update employeepayroll set taxablePay = '3000' where id = '1';
+update employeepayroll set incomeTax = '4000' where id = '1';
+update employeepayroll set netPay = '5000' where id = '1';
+update employeePayroll set name = 'Terisa' where id = '4'; 
+update employeepayroll set gender ='F' where id = '4';
+select * from employeepayroll;
+
+create table employeeDept ( emp_id int primary key auto_increment,
+dept_id int, designation varchar(40),
+foreign key (dept_id) references employeePayroll(id));
+desc employeeDept;
+
+insert into employeeDept (emp_id,dept_id,designation)
+values(101,1,'Manager'),(202,2,'Developer'),(303,3,'DevOps'),(404,4,'analyst');
+select *from employeeDept;
+
+select name, dept,salary,designation,gender from employeeDept
+inner join employeePayroll ON employeePayroll.id=employeeDept.dept_id;
